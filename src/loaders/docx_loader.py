@@ -92,7 +92,7 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     input_path = os.path.join(current_dir, "..", "..","data","raw","docx","staj_plan.docx")
-    output_path = os.path.join(current_dir, "..", "..","data","processed")
+    output_path = os.path.join(current_dir, "..", "..","data","processed", "docx")
 
     if os.path.exists(input_path):
         process_docx(input_path, output_path)

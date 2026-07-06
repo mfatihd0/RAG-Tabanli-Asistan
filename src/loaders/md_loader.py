@@ -18,7 +18,6 @@ def process_md(file_path, output_dir):
 
     for doc in docs:
         doc.page_content = clean_text(doc.page_content)
-
         doc.metadata["src_file"] = os.path.basename(file_path)
         doc.metadata["doc_type"] = "md"
 
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     input_path = os.path.join(current_dir, "..", "..","data","raw","md","example.md")
-    output_path = os.path.join(current_dir, "..", "..","data","processed")
+    output_path = os.path.join(current_dir, "..", "..","data","processed", "md")
 
     if os.path.exists(input_path):
         process_md(input_path, output_path)
