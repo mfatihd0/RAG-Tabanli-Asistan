@@ -1,0 +1,306 @@
+[
+    {
+        "chunk_id": 1,
+        "content": "MEHMET FATİH DURAN (STAJYER) İÇİN HAFTALIK GÖREV PLANI\n\nProje: Geliştirilebilir Doküman Tabanlı Yapay Zekâ Asistanı / RAG Sistemi",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 2,
+        "content": "Stajyer seviyesi | Mezun Adayı\nToplam süre | 40 iş günü\nPlan başlangıcı | 01 Temmuz 2026 Çarşamba\nPlan bitişi | 25 Ağustos 2026 Salı\nGenel hedef | PDF / Word / Markdown dokümanları üzerinden kaynaklı cevap verebilen, arayüzü olan ve test edilebilir bir RAG asistanı geliştirmek",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 3,
+        "content": "Zorluk ayarı | Orta seviye: temel demo ile başlar, vector store, prompt iyileştirme, test ve dokümantasyonla olgunlaşır",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 4,
+        "content": "1. Proje Amacı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 5,
+        "content": "Bu planın amacı, 40 iş günü sonunda stajyerin kuruma ait örnek dokümanlar üzerinden soru-cevap yapabilen, kaynak doküman parçalarını kullanarak cevap üreten ve basit bir arayüz ile gösterilebilen bir RAG asistanı geliştirmesidir",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 6,
+        "content": ". Proje görüntü işleme yerine; Python, doküman işleme, embedding, vector search, prompt tasarımı, Streamlit/Flask arayüzü, test ve teknik dokümantasyon konularına odaklanır.",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 7,
+        "content": "2. Staj Sonunda Beklenen Teslimler\n\nÇalışan RAG asistanı: kullanıcı soru sorar, sistem dokümanlardan ilgili parçaları bulur ve cevap üretir.\n\nPDF / Word / Markdown dosyalarını okuyabilen ve parçalara bölebilen doküman işleme modülü.\n\nFAISS veya Chroma gibi basit bir vector store ile arama akışı.",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 8,
+        "content": "Streamlit veya Flask tabanlı kullanıcı arayüzü.\n\nCevaplarda mümkün olduğunca kaynak/chunk gösterimi.\n\nEn az 30 test sorusu, beklenen cevaplar ve başarı/başarısızlık analizi.\n\nREADME: kurulum, çalıştırma, klasör yapısı, örnek kullanım.",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 9,
+        "content": "Teknik doküman: mimari, kullanılan teknolojiler, prompt stratejisi, zayıf noktalar ve geliştirme önerileri.\n\n10-12 dakikalık final sunumu ve canlı demo.\n\n3. Hafta Hafta Tarihli Plan",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 10,
+        "content": "Dönem | Tarih Aralığı | Ana Konu | Görevler | Hafta Sonu Çıktısı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 11,
+        "content": "0. Hafta / Başlangıç | 01-03 Temmuz 2026 | Oryantasyon, kapsam ve ortam kurulumu | Proje amacı anlatılır. Python, sanal ortam, VS Code/PyCharm, Git ve temel klasör yapısı hazırlanır. RAG, embedding, vector database, LangChain/LlamaIndex, Streamlit ve Flask kısa araştırılır",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 12,
+        "content": ". Stajyer mevcut 20 günlük stajyerin temel arayüz işinden ayrışacak şekilde daha mimari tarafta konumlandırılır. | Kurulu geliştirme ortamı + 1-2 sayfalık araştırma notu + önerilen proje klasör yapısı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 13,
+        "content": "1. Hafta | 06-10 Temmuz 2026 | NATO/yoğunluk dönemine uygun araştırma ve mimari tasarım | RAG akış diyagramı hazırlanır: doküman yükleme, chunking, embedding, retrieval, prompt, cevap, kaynak gösterimi. PDF/Word/Markdown okuma alternatifleri araştırılır. FAISS ve Chroma karşılaştırılır",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 14,
+        "content": ". FAISS ve Chroma karşılaştırılır. API key kullanımı, .env mantığı ve güvenli yapı incelenir. | Mimari diyagram + teknoloji karşılaştırma tablosu + ilk README taslağı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 15,
+        "content": "2. Hafta | 13-17 Temmuz 2026 | Doküman okuma, veri hazırlama ve chunking | PDF, Word ve Markdown dosyaları için loader fonksiyonları denenir. Metin temizleme, sayfa bilgisi tutma, chunk boyutu ve overlap mantığı uygulanır. Küçük örnek doküman seti hazırlanır",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 16,
+        "content": ". Küçük örnek doküman seti hazırlanır. Chunk çıktıları kontrol edilir ve gereksiz karakter temizliği yapılır. | Doküman okuma modülü + chunk örnekleri + temizlenmiş örnek veri klasörü",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 17,
+        "content": "3. Hafta | 20-24 Temmuz 2026 | Embedding ve vector store kurulumu | Seçilen embedding yöntemiyle doküman parçaları vektöre çevrilir. FAISS veya Chroma ile local vector store oluşturulur. Kullanıcı sorusuna göre en alakalı chunkların getirilmesi sağlanır. Retrieval sonuçları ayrı ayrı test edilir",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 18,
+        "content": ". Retrieval sonuçları ayrı ayrı test edilir. | Çalışan retrieval kodu + örnek sorgular + top-k sonuç kontrol listesi",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 19,
+        "content": "4. Hafta | 27-31 Temmuz 2026 | LLM cevabı, prompt tasarımı ve kaynaklı cevap | Retrieved chunklar prompt içine yerleştirilir. Sistem promptu hazırlanır: sadece dokümana göre cevap ver, bilgi yoksa belirt, uydurma yapma",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 20,
+        "content": ". Cevapla birlikte kullanılan kaynak/chunk bilgisi arayüzde veya terminalde gösterilir. | İlk gerçek RAG demosu + prompt dosyası + 15 test sorusu ile deneme sonuçları",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 21,
+        "content": "5. Hafta | 03-07 Ağustos 2026 | Arayüz ve kullanıcı deneyimi | Streamlit veya Flask arayüzü geliştirilir. Dosya yükleme, soru sorma, cevap alanı, kaynak gösterimi ve hata mesajları eklenir. Arayüz kullanıcı için sade ve anlaşılır hale getirilir",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 22,
+        "content": ". Gerekirse 20 günlük stajyerin arayüzünden fikir alınır. | Kullanılabilir arayüz + ekran görüntüleri + demo akışı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 23,
+        "content": "6. Hafta | 10-14 Ağustos 2026 | Test, değerlendirme ve iyileştirme | En az 30 soru hazırlanır. Cevaplar doğru, kısmen doğru, hatalı, dokümanda yok şeklinde sınıflandırılır. Chunk boyutu, top-k, prompt ve model yanıtları denenerek kalite iyileştirilir. Hallucination örnekleri not edilir",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 24,
+        "content": ". Hallucination örnekleri not edilir. | Test raporu + iyileştirme listesi + güncellenmiş prompt/retrieval ayarları",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 25,
+        "content": "7. Hafta | 17-21 Ağustos 2026 | Kod düzenleme, kayıt opsiyonu ve proje olgunlaştırma | Kod modüler hale getirilir: loaders, retriever, llm, ui, config gibi dosyalar ayrılır. İsteğe bağlı olarak SQLite/PostgreSQL ile soru-cevap geçmişi tutulur. Hata yönetimi, .env, requirements",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 26,
+        "content": ". Hata yönetimi, .env, requirements.txt ve README tamamlanır. | Düzenli kod yapısı + requirements.txt + README + opsiyonel kayıt modülü",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 27,
+        "content": "8. Hafta / Kapanış | 24-25 Ağustos 2026 | Final teslim, sunum ve demo | Teknik doküman son haline getirilir. Mimari, kurulum, kullanım, test sonuçları, zayıf noktalar ve geliştirme önerileri yazılır. Final sunumu hazırlanır ve canlı demo provası yapılır",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 28,
+        "content": ". | Kod teslimi + teknik doküman + test raporu + final sunumu",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 29,
+        "content": "4. İlk 3 Gün Detay Planı",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 30,
+        "content": "Tarih | Günlük Görev | Beklenen Çıktı\n01 Temmuz Çarşamba | Tanışma, proje amacının anlatılması, mevcut dokümanın incelenmesi, RAG ve doküman asistanı kavramlarının araştırılması. Python/IDE/Git ortamı kontrol edilir. | Kurulum kontrol listesi + kısa araştırma notu",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 31,
+        "content": "02 Temmuz Perşembe | RAG mimarisi çizilir. Hangi klasörler olacak, hangi dosya hangi işi yapacak belirlenir. PDF/Word/Markdown okuma kütüphaneleri araştırılır. | Mimari taslak + klasör yapısı önerisi",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 32,
+        "content": "03 Temmuz Cuma | Mini paylaşım yapılır: RAG nedir, embedding nedir, vector database nedir, bu projede hangi adımlar olacak? Sonraki hafta için yapılacaklar netleştirilir. | 5-7 dakikalık kısa anlatım + haftalık görev listesi",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 33,
+        "content": "5. Günlük Çalışma Ritmi",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 34,
+        "content": "Zaman | Ne Yapılacak? | Amaç\nSabah 15 dk | Bir önceki gün ne yapıldı, bugün ne yapılacak, takıldığı yer var mı? | Kontrol ve yönlendirme\nGün içi | Kodlama, araştırma, test, doküman hazırlama. | Bağımsız ilerleme",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 35,
+        "content": "Gün sonu 10 dk | Kısa not: ne tamamlandı, ne eksik kaldı, yarın ne yapılacak? | Staj takibi ve kayıt",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 36,
+        "content": "6. Araştırma Başlıkları",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 37,
+        "content": "Temel Konular | Proje Odaklı Sorular\nRAG nedir? | Dokümanda bilgi yoksa asistan ne demeli?\nEmbedding nedir? | Cevaplarda kaynak nasıl gösterilir?\nVector database nedir? | PDF/Word/Markdown metni nasıl okunur?\nChunking ve overlap nedir? | Test soruları nasıl hazırlanır?",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    },
+    {
+        "chunk_id": 38,
+        "content": "FAISS ve Chroma farkı nedir? | Chunk boyutu kaliteyi nasıl etkiler?\nPrompt engineering nedir? | Top-k retrieval ne demektir?\nHallucination nedir? | README nasıl yazılır?\nStreamlit / Flask ne işe yarar? | Demo sunumu nasıl yapılır?",
+        "metadata": {
+            "src_file": "staj_plan.docx",
+            "doc_type": "docx"
+        }
+    }
+]

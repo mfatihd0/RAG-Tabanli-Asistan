@@ -1,0 +1,4 @@
+pypdf
+python-docx
+langchain
+langchain-community
