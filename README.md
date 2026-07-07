@@ -2,27 +2,29 @@
 
 Bu projenin amacı, kurum içi belgelerin veya akademik makalelerin RAG tabanlı bir asistan tarafından okunarak kullanıcının bir arayüz aracılığı ile sorduğu sorulara yanıt alabilmesidir.
 
-# Kulanılan Teknolojiler
+## Kulanılan Teknolojiler
 
-**Dil:** Python 3.14
-**Framework:** LangChain
-**Vector Database:** ChromaDB
-**LLM:** Gemini (Google)
-**UI:** Streamlit
+* **Dil:** Python 3.14
+* **Framework:** LangChain
+* **Vector Database:** ChromaDB
+* **LLM:** Gemini (Google)
+* **UI:** Streamlit
 
-# Sistem Mimarisi
+## Sistem Mimarisi
 
-Flowchart
+Aşağıdaki akış diyagramı, sistemin veri hazırlama ve soru-cevap boru hatlarının nasıl çalıştığını göstermektedir
 
-# Kurulum ve Çalıştırma
+![RAG Sistem Mimarisi](assets/Sistem_Mimarisi_Flowchart.png)
 
-**Kütüphane Kurulumu**
+## Kurulum ve Çalıştırma
+
+**1. Kütüphane Kurulumu**
 
 python -m pip install -r requirements.txt
 
-**.env dosyası oluşturun ve api key'i buraya girin**
+**2. .env dosyası oluşturun ve api key'i buraya girin**
 
-GEMINI_API_KEY = "api_key"
+GOOGLE_API_KEY=api_key
 
 **sistemi başlatın**
 
