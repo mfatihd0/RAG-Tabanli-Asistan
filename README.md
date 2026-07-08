@@ -14,7 +14,7 @@ Bu projenin amacı, kurum içi belgelerin veya akademik makalelerin RAG tabanlı
 
 Aşağıdaki akış diyagramı, sistemin veri hazırlama ve soru-cevap boru hatlarının nasıl çalıştığını göstermektedir
 
-![RAG Sistem Mimarisi](assets/Sistem_Mimarisi_Flowchart.png)
+![RAG Sistem Mimarisi](assets/flowchart.svg)
 
 ## Kurulum ve Çalıştırma
 
