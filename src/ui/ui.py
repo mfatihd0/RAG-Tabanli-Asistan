@@ -39,19 +39,34 @@ if query := st.chat_input("Doküman ile ilgili sorunuzu buraya yazın..."):
     with st.chat_message("user"):
         st.markdown(query)
 
-    with st.chat_message("assistant"):
-        with st.spinner("Dokümanlar taranıyor, cevabınız hazırlanıyor..."):
-            answer, docs = ask_to_rag(query, vstore, k=5)
+        with st.chat_message("assistant"):
+            with st.spinner("Dokümanlar taranıyor, cevabınız hazırlanıyor..."):
+                answer, docs = ask_to_rag(query, vstore, k=5)
 
-            if isinstance(answer, list):
-                answer = answer[0]["text"]
+                if isinstance(answer, list):
+                    answer = answer[0]["text"]
 
-            sources_text = "\n Yararlanılan Kaynaklar: \n"
-            for i, d in enumerate(docs, 1):
-                sources_text += f"{d.metadata.get('src_file', 'dosya')} (sayfa: {d.metadata.get('page_number', )})\n"
+                st.markdown(answer)
 
-            full_response = answer + sources_text
-            st.markdown(full_response)
-
+                olumsuz_kelimeler = [
+                "bulunmamaktadır", "bilgi yok", "yer almamaktadır", 
+                "bahsedilmemektedir", "düzenleme bulunmamaktadır", "bulunamadı"
+            ]
+            
+            if any(kelime in answer.lower() for kelime in olumsuz_kelimeler) or not docs:
+                # Bilgi yoksa ya da olumsuz cevapsa kaynak kutusu hiç açılmasın!
+                full_response = answer
+            else:
+                # Bilgi varsa kaynakları açılır kutuda göster
+                with st.expander(f"🔍 Yararlanılan Kaynakları Göster ({len(docs)} Parça)"):
+                    unique_sources = set()
+                    for d in docs:
+                        src = d.metadata.get('src_file', 'Dosya')
+                        page = d.metadata.get('page_number', '?')
+                        unique_sources.add(f"- 📄 **{src}** *(Sayfa: {page})*")
+                    
+                    for src_str in sorted(unique_sources):
+                        st.markdown(src_str)
+                full_response = f"{answer}\n\n*Yararlanılan Kaynak Sayısı: {len(docs)}*"
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})

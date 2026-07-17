@@ -44,12 +44,12 @@ def ask_to_rag(query, vectorestore, k=5):
     # 3-llm için prompt şablonu hazırlıyoruz
     system_instruction = """Sen, dokümanlara dayanarak soruları cevaplayan profesyonel bir yapay zeka asistanısın.
     Sana aşağıda "BAĞLAM (Doküman Parçaları)" başlığı altında bazı metin parçaları verilecektir.
-    
-    Uyman gereken kurallar şunlardır ve kesinlikle uy:
-    1-sadece ve sadece aşağıda verilen BAĞLAM içerisindeki bilgilere dayanarak cevap ver.
-    2-eğer sorunun cevabı verilen bağlam metinlerinde yoksa, asla uydurma (hallucination yapma) ve "verilen dökümanlarda bu sorunun cevabına dair bilgi bulunmamaktadır" diyerek belirt.
-    3-cevabını verirken, maddeler halinde okunaklı ve net bir türkçe kullan.
-    4-hangi bilgiyi hangi dökümandan veya sayfadan aldığını cevabın sonunda kaynak göster"""
+
+    LÜTFEN ŞU KURALLARA KESİNLİKLE UY:
+    1. Sadece ve sadece aşağıda verilen BAĞLAM içerisindeki bilgilere dayanarak cevap ver.
+    2. Eğer sorunun cevabı verilen bağlam metinlerinde yoksa, sadece "Verilen dokümanlarda bu sorunun cevabına dair bilgi bulunmamaktadır." de. KESİNLİKLE uydurma yapma ve BİLGİ YOKSA ASLA KAYNAK (dosya adı, sayfa numarası) BELİRTME!
+    3. Cevabını verirken, maddeler halinde okunaklı ve net bir Türkçe kullan.
+    4. SADECE dokümanda sorunun cevabı varsa hangi bilgiyi hangi dokümandan/sayfadan aldığını cevabın sonunda kaynak olarak göster."""
 
     human_template ="""BAĞLAM (Doküman Parçaları): {context}
     
