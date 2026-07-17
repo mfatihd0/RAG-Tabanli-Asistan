@@ -62,8 +62,8 @@ def process_docx(file_path, output_dir):
     )
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,
-        chunk_overlap=50,
+        chunk_size=800,
+        chunk_overlap=150,
         separators=["\n\n", "\n", ".", " ", ""]
     )
 

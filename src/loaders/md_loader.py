@@ -22,8 +22,8 @@ def process_md(file_path, output_dir):
         doc.metadata["doc_type"] = "md"
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=200,
-        chunk_overlap=50,
+        chunk_size=800,
+        chunk_overlap=150,
         separators=["\n\n", "\n", ".", " ", ""]
     )        
 

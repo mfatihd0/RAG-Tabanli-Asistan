@@ -17,7 +17,7 @@ def table_to_text(table):
     """tabloyu metne çeviren fonksiyon"""
     rows = []
     for row in table:
-        cells =[str(cell).strip() if cell is not None else "" for cell in row]
+        cells = [str(cell).strip() if cell is not None else "" for cell in row]
         rows.append(" | ".join(cells))
     return "\n".join(rows)
 
@@ -32,7 +32,6 @@ def extract_page_content(page):
         return text if text else ""
     
     table_bboxes = [table.bbox for table in tables]
-
 
     def not_within_table(obj):
         for bbox in table_bboxes:
@@ -61,47 +60,69 @@ def extract_page_content(page):
 
     return "\n\n".join(parts)
 
+
 def process_pdf(file_path, output_dir):
-        docs = []
+    """PDF dosyasındaki sayfa sınırlarını kaldırarak (Yöntem 1) kesintisiz chunking yapar."""
+    full_text_parts = []
 
-        with pdfplumber.open(file_path) as pdf:
-            for page_num, page in enumerate(pdf.pages, start=1):
-                page_content = extract_page_content(page)
-                if page_content.strip():
-                    docs.append(Document(
-                        page_content=clean_text(page_content),
-                        metadata={
-                            "src_file": os.path.basename(file_path),
-                            "doc_type": "pdf",
-                            "page_number": page_num
-                        }
-                    ))
-                
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=300,
-            chunk_overlap=50,
-            separators=["\n\n", "\n",".", " ", ""]
-        )          
+    with pdfplumber.open(file_path) as pdf:
+        for page_num, page in enumerate(pdf.pages, start=1):
+            page_content = extract_page_content(page)
+            if page_content.strip():
+                cleaned = clean_text(page_content)
+                # Sayfa sınırlarını aşsa bile hangi sayfada olduğumuzu bilmek için etiket koyuyoruz
+                full_text_parts.append(f"[[SAYFA {page_num}]]\n{cleaned}")
 
-        chunks = text_splitter.split_documents(docs)
-        print(f"toplam chunk sayısı: {len(chunks)}")
+    # Tüm sayfaları tek bir kesintisiz metin olarak birleştiriyoruz (Sayfa duvarı kalktı!)
+    raw_text = "\n\n".join(full_text_parts)
 
-        os.makedirs(output_dir, exist_ok=True)
-        output_file = os.path.join(output_dir, "pdf_chunks_output.json")
+    doc = Document(
+        page_content=raw_text,
+        metadata={
+            "src_file": os.path.basename(file_path),
+            "doc_type": "pdf"
+        }
+    )
 
-        chunk_data = []
-        for i, chunk in enumerate(chunks):
-            chunk_data.append({
-                "chunk_id": i + 1,
-                "chunk_text": chunk.page_content,
-                "metadata": chunk.metadata
-            })
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=800,
+        chunk_overlap=150,
+        separators=["\n\n", "\n", ".", " ", ""]
+    )          
 
-        with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(chunk_data, f, ensure_ascii=False, indent=4)
+    raw_chunks = text_splitter.split_documents([doc])
+    
+   
+    chunks = []
+    current_page = 1
+    for i, chunk in enumerate(raw_chunks):
+        content = chunk.page_content
+        # İçinde [[SAYFA X]] geçiyorsa son gördüğümüz sayfa numarasını güncelleriz
+        matches = re.findall(r'\[\[SAYFA (\d+)\]\]', content)
+        if matches:
+            current_page = int(matches[-1])
+        
+        chunk.metadata["page_number"] = current_page
+        chunks.append(chunk)
 
-        print(f"kaydedilen dosya: {output_file}")    
-        return chunks
+    print(f"toplam chunk sayısı: {len(chunks)}")
+
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, "pdf_chunks_output.json")
+
+    chunk_data = []
+    for i, chunk in enumerate(chunks):
+        chunk_data.append({
+            "chunk_id": i + 1,
+            "chunk_text": chunk.page_content,
+            "metadata": chunk.metadata
+        })
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(chunk_data, f, ensure_ascii=False, indent=4)
+
+    print(f"kaydedilen dosya: {output_file}")    
+    return chunks
 
 
 if __name__ == "__main__":
@@ -112,6 +133,5 @@ if __name__ == "__main__":
 
     if os.path.exists(input_path):
         process_pdf(input_path, output_path)
-
     else:
-        print(f"Dosya bulunamadı: {input_path}")    
+        print(f"Dosya bulunamadı: {input_path}")

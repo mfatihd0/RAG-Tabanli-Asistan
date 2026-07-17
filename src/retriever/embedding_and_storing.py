@@ -50,7 +50,7 @@ def create_vectorstore(documents, persist_dir):
     return vectorstore
 
 
-def load_vectorestore(persist_dir):
+def load_vectorstore(persist_dir):
     """oluşturulmuş vectore store'u diskten yükleyen fonk."""
 
     embeddings=GoogleGenerativeAIEmbeddings(model="gemini-embedding-2")
@@ -63,7 +63,7 @@ def load_vectorestore(persist_dir):
     return vectorstore
 
 
-def test_search(vectorstore, query, k=3):
+def test_search(vectorstore, query, k=5):
     """vectorstore üzerinde benzerlik araması yapar (top-k 3)"""
 
     print(f"\nsoru: {query}")
@@ -74,7 +74,7 @@ def test_search(vectorstore, query, k=3):
         print(f"\nkaynak: {doc.metadata.get('src_file', 'bilinmiyor')}")
         if doc.metadata.get("page_number"):
             print(f"\nsayfa: {doc.metadata['page_number']}")
-        print(f"\niçerik: {doc.page_content[:200]}")
+        print(f"\niçerik: {doc.page_content[:1000]}")
 
     return results
 
@@ -106,5 +106,5 @@ if __name__ == "__main__":
         vectorstore = create_vectorstore(all_documents, vectorstore_path)
 
         #test araması
-        test_search(vectorstore, "stajda ne yapmam gerekiyor?")
-        test_search(vectorstore, "yoklama cezası var mı?")
+        test_search(vectorstore, "ne yaparsam disiplin cezası yerim?")
+      
