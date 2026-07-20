@@ -28,12 +28,13 @@ def docs_for_prompt(docs):
 
     return "\n".join(formatted_chunks)    
 
-def ask_to_rag(query, vectorestore, k=5):
+def ask_to_rag(query, vectorestore, session_id="genel", k=5):
     """kullanıcı sorusunu alır, benzer chunkları bulur ve llm'e gönderir"""
 
     # 1-vectore store'dan top-k = 5 ile parçaları bul
-    print(f"'{query}' sorgusu için döküman taraması")
-    relevant_docs = vectorestore.similarity_search(query, k=k)
+    print(f"'{query}' sorgusu için döküman taraması (Oturum: {session_id})")
+    search_filter = {"$or": [{"session_id:" "genel"}, {"session_id": session_id}]}
+    relevant_docs = vectorestore.similarity_search(query, k=k, filter=search_filter)
 
     if not relevant_docs:
         return "dökümanlarda bu sorguyla alakalı bilgi yok", []

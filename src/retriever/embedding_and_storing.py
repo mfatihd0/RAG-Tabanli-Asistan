@@ -17,6 +17,8 @@ def load_chunks_from_json(json_path):
     documents = []
     for chunk in chunk_data:
         content = chunk.get("chunk_text") or chunk.get("content", "")
+        meta = chunk.get("metadata",{})
+        meta["session_id"] = "genel"
         documents.append(Document(
             page_content=content,
             metadata=chunk.get("metadata", {})       
