@@ -4,7 +4,7 @@ import glob
 import time
 from dotenv import load_dotenv
 from langchain_core.documents import Document
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 load_dotenv()
@@ -29,12 +29,12 @@ def load_chunks_from_json(json_path):
 
 def create_vectorstore(documents, persist_dir):
     """embedding işlemi yapılır ve vector store oluşturulur"""
-    embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-2")
+    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
     print(f"embedding işlemi: ({len(documents)} chunk)")
     # ilk batch ile vector store oluştur
     batch_size = 50
     first_batch = documents[:batch_size]
-    vectorstore = Chroma.from_documents(
+    vectorstore = Chroma.from_documents(    
         documents=first_batch,
         embedding=embeddings,
         persist_directory=persist_dir
@@ -43,7 +43,6 @@ def create_vectorstore(documents, persist_dir):
 
     # kalan batch'leri ekle
     for i in range(batch_size, len(documents), batch_size):
-        time.sleep(60)  # rate limit için 60 saniye bekle
         batch = documents[i:i + batch_size]
         vectorstore.add_documents(batch)
         print(f"  batch {i//batch_size + 1}/{-(-len(documents)//batch_size)} tamamlandı")
@@ -55,7 +54,7 @@ def create_vectorstore(documents, persist_dir):
 def load_vectorstore(persist_dir):
     """oluşturulmuş vectore store'u diskten yükleyen fonk."""
 
-    embeddings=GoogleGenerativeAIEmbeddings(model="gemini-embedding-2")
+    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
     vectorstore=Chroma(
         persist_directory=persist_dir,
         embedding_function=embeddings

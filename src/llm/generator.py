@@ -1,8 +1,8 @@
 import os
 import sys
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_groq import ChatGroq
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.join(current_dir, "..","..")
@@ -33,7 +33,7 @@ def ask_to_rag(query, vectorestore, session_id="genel", k=5):
 
     # 1-vectore store'dan top-k = 5 ile parçaları bul
     print(f"'{query}' sorgusu için döküman taraması (Oturum: {session_id})")
-    search_filter = {"$or": [{"session_id:" "genel"}, {"session_id": session_id}]}
+    search_filter = {"$or": [{"session_id": "genel"}, {"session_id": session_id}]}
     relevant_docs = vectorestore.similarity_search(query, k=k, filter=search_filter)
 
     if not relevant_docs:
@@ -46,11 +46,10 @@ def ask_to_rag(query, vectorestore, session_id="genel", k=5):
     system_instruction = """Sen, dokümanlara dayanarak soruları cevaplayan profesyonel bir yapay zeka asistanısın.
     Sana aşağıda "BAĞLAM (Doküman Parçaları)" başlığı altında bazı metin parçaları verilecektir.
 
-    LÜTFEN ŞU KURALLARA KESİNLİKLE UY:
-    1. Sadece ve sadece aşağıda verilen BAĞLAM içerisindeki bilgilere dayanarak cevap ver.
-    2. Eğer sorunun cevabı verilen bağlam metinlerinde yoksa, sadece "Verilen dokümanlarda bu sorunun cevabına dair bilgi bulunmamaktadır." de. KESİNLİKLE uydurma yapma ve BİLGİ YOKSA ASLA KAYNAK (dosya adı, sayfa numarası) BELİRTME!
-    3. Cevabını verirken, maddeler halinde okunaklı ve net bir Türkçe kullan.
-    4. SADECE dokümanda sorunun cevabı varsa hangi bilgiyi hangi dokümandan/sayfadan aldığını cevabın sonunda kaynak olarak göster."""
+    BU KURALLARA KESİNLİKLE UY:
+    - Sadece ve sadece aşağıda verilen BAĞLAM içerisindeki bilgilere dayanarak cevap ver.
+    - Eğer sorunun cevabı verilen bağlam metinlerinde yoksa, sadece "Verilen dokümanlarda bu sorunun cevabına dair bilgi bulunmamaktadır." de. KESİNLİKLE uydurma yapma ve BİLGİ YOKSA ASLA KAYNAK (dosya adı, sayfa numarası) BELİRTME!
+    - Cevabını verirken okunaklı ve net bir Türkçe kullan."""
 
     human_template ="""BAĞLAM (Doküman Parçaları): {context}
     
@@ -63,9 +62,9 @@ def ask_to_rag(query, vectorestore, session_id="genel", k=5):
         ("human", human_template)
     ])
 
-    # 4-google gemini llm modeli tanımlama
-    llm = ChatGoogleGenerativeAI(
-        model = "gemini-3.1-flash-lite",
+    # 4-llm modeli tanımlama
+    llm = ChatGroq(
+        model = "llama-3.3-70b-versatile",
         temperature = 0.2
     )
 
@@ -99,7 +98,7 @@ if __name__ == "__main__":
     ]
 
     for q in test_queries:
-        answer, docs = ask_to_rag(q, vstore, k=5)
+        answer, docs = ask_to_rag(q, vstore, k=10)
 
         print(f" Kullanılan kaynak parça sayısı: {len(docs)}")
         for idx, d in enumerate(docs, 1):

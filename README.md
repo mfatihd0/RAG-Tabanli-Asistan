@@ -7,7 +7,7 @@ Bu projenin amacı, kurum içi belgelerin veya akademik makalelerin RAG tabanlı
 * **Dil:** Python 3.14
 * **Framework:** LangChain
 * **Vector Database:** ChromaDB
-* **LLM:** Gemini (Google)
+* **LLM:** Llama-3.3-70B-versatile
 * **UI:** Streamlit
 
 ## Sistem Mimarisi
@@ -18,14 +18,14 @@ Aşağıdaki akış diyagramı, sistemin veri hazırlama ve soru-cevap boru hatl
 
 ## Kurulum ve Çalıştırma
 
-**1. Kütüphane Kurulumu**
+**Kütüphane Kurulumu**
 
 python -m pip install -r requirements.txt
 
-**2. .env dosyası oluşturun ve api key'i buraya girin**
+**API Kurulumu**
 
-GOOGLE_API_KEY=api_key
+.env dosyası oluşturun ve API_KEY'inizi girin. 
 
-**sistemi başlatın**
+GROQ_API_KEY="api_key"
 
-...
+
