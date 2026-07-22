@@ -18,7 +18,7 @@ def docs_for_prompt(docs):
     formatted_chunks = []
     for i, doc in enumerate(docs, start=1):
         src_file = doc.metadata.get("src_file", "dosya hatası")
-        page_num = doc.metadata.get("page_number", "sayfa hatası")
+        page_num = doc.metadata.get("page", -1) + 1
 
         chunk_str = (
             f"parça: {i} | kaynak: {src_file} | sayfa: {page_num}\n"
@@ -28,12 +28,15 @@ def docs_for_prompt(docs):
 
     return "\n".join(formatted_chunks)    
 
-def ask_to_rag(query, vectorestore, session_id="genel", k=5):
+def ask_to_rag(query, vectorestore, doc_hashes=None, k=5):
     """kullanıcı sorusunu alır, benzer chunkları bulur ve llm'e gönderir"""
 
-    # 1-vectore store'dan top-k = 5 ile parçaları bul
-    print(f"'{query}' sorgusu için döküman taraması (Oturum: {session_id})")
-    search_filter = {"$or": [{"session_id": "genel"}, {"session_id": session_id}]}
+    if not doc_hashes or len(doc_hashes) == 0:
+        return "Bu sohbette henüz okunacak bir doküman yüklenmedi.", []
+    
+    print(f"Doküman taraması yapılıyor...")
+
+    search_filter = {"doc_hash": {"$in": doc_hashes}}
     relevant_docs = vectorestore.similarity_search(query, k=k, filter=search_filter)
 
     if not relevant_docs:

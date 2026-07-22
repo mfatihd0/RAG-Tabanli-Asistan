@@ -2,6 +2,7 @@ import os
 import sys
 import streamlit as st
 import tempfile
+import hashlib
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.join(current_dir, "..","..")
@@ -45,7 +46,7 @@ if "active_session_id" not in st.session_state:
 
 
 with st.sidebar:
-    st.title(" Oturumlar")
+    st.title(" Sohbetler")
 
     if st.button ("+ Yeni Sohbet Başlat", use_container_width=True):
         isim = f"Sohbet {len(st.session_state.chat_history) + 1}"
@@ -59,15 +60,51 @@ with st.sidebar:
     st.divider()
 
     for s_id, s_data in st.session_state.chat_history.items():
+        col1, col2 = st.columns([4,1])
+
         button_text = f" {s_data['name']}" if s_id != st.session_state.active_session_id else f" {s_data['name']}"
 
-        if st.button(button_text, key=s_id, use_container_width=True):
-            st.session_state.active_session_id = s_id
-            st.rerun()
+        with col1:
+            if st.button(button_text, key=f"btn_{s_id}", use_container_width=True):
+                st.session_state.active_session_id = s_id
+                st.rerun()
 
+        with col2:
+            if st.button("✖", key=f"del_{s_id}", use_container_width=True):
+                delete_hash = [f.get("hash") for f in s_data.get("uploaded_files", [])]
+
+                for h_code in delete_hash:
+                    any_session_use = False
+                    for other_sid, other_sdata in st.session_state.chat_history.items():
+                        if other_sid != s_id:
+                            if any(f.get("hash") == h_code for f in other_sdata.get("uploaded_files", [])):
+                    
+                                any_session_use=True
+                                break
+                            
+                    if not any_session_use:
+                        try:
+                            vstore._collection.delete(where={"doc_hash": h_code})
+                        except Exception:
+                            pass
+                
+                del st.session_state.chat_history[s_id]
+                save_history(st.session_state.chat_history)
+
+                if st.session_state.active_session_id == s_id:
+                    if len(st.session_state.chat_history) > 0:
+                        st.session_state.active_session_id = list(st.session_state.chat_history.keys())[-1]
+                    else:
+                        new_id, new_name = create_session("Sohbet 1")
+                        st.session_state.chat_history[new_id] = {"name": new_name, "messages": [], "uploaded_files": []}
+                        st.session_state.active_session_id = new_id
+                        save_history(st.session_state.chat_history)
+
+                st.rerun()
+                    
     st.divider()
 
-    # AKTİF SOHBETİN DOKÜMANLARINI LİSTELE
+    
     st.markdown("### Bu Sohbetteki Dokümanlar")
     aktif_id = st.session_state.active_session_id
     aktif_dosyalar = st.session_state.chat_history[aktif_id].get("uploaded_files", [])
@@ -75,45 +112,59 @@ with st.sidebar:
     if not aktif_dosyalar:
         st.info("Bu sohbete henüz özel bir dosya yüklenmedi.")
     else:
-        for dosya_ismi in aktif_dosyalar:
-            st.markdown(f"-  {dosya_ismi}")
+        for dosya in aktif_dosyalar:
+            st.markdown(f"- {dosya.get('name', 'Bilinmeyen Dosya')}")
 
 
 # chat ui
 active_session = st.session_state.active_session_id
 sohbet_adi = st.session_state.chat_history[active_session]["name"]
 
-# 1. DİNAMİK BAŞLIK (Hangi sohbetteysek onun adı yazar)
+
 st.title(f" {sohbet_adi}")
 
-# 2. ŞIK AÇILIR MENÜ İLE DOSYA YÜKLEME (Popover)
+
 with st.popover("➕ Bu Sohbete Yeni Dosya Yükle"):
     uploaded_file = st.file_uploader("PDF Yükle", type=["pdf"])
-    
+        
     if uploaded_file:
-        with st.spinner("Dosya sisteme işleniyor..."):
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
-                tmp_file.write(uploaded_file.getvalue())
-                tmp_path = tmp_file.name
+        file_bytes = uploaded_file.getvalue()
+        file_hash = hashlib.md5(file_bytes).hexdigest()
 
-            loader = PyPDFLoader(tmp_path)
-            text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=400)
-            docs = loader.load_and_split(text_splitter)
+        already_in_session = any(f.get("hash") == file_hash 
+        for f in st.session_state.chat_history[active_session].get("uploaded_files", []))
 
-            for doc in docs:
-                doc.metadata["session_id"] = active_session
-                doc.metadata["src_file"] = uploaded_file.name 
+        if already_in_session:
+           st.info(f" {uploaded_file.name} isimli bu dosya sohbette zaten yüklü")
+        else:
+            with st.spinner("Dosya sisteme işleniyor..."):
+                is_in_system = False
+                for sid, sdata in st.session_state.chat_history.items():
+                    if any(f.get("hash") == file_hash for f in sdata.get("uploaded_files", [])):
+                        is_in_system = True
+                        break
 
-            vstore.add_documents(docs)
-            os.remove(tmp_path)
-            
-            # Yüklenen dosyayı o sohbetin çantasına ekle ve kaydet
-            if uploaded_file.name not in st.session_state.chat_history[active_session]["uploaded_files"]:
-                st.session_state.chat_history[active_session]["uploaded_files"].append(uploaded_file.name)
+                if not is_in_system:
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")as tmp_file:
+                        tmp_file.write(file_bytes)
+                        tmp_path = tmp_file.name
+
+                    loader = PyPDFLoader(tmp_path)
+                    text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=400)
+                    docs = loader.load_and_split(text_splitter)
+
+                    for doc in docs:
+                        doc.metadata["doc_hash"] = file_hash
+                        doc.metadata["src_file"] = uploaded_file.name
+
+                    vstore.add_documents(docs)
+                    os.remove(tmp_path)
+                    
+                new_file_object = {"name": uploaded_file.name, "hash": file_hash}
+                st.session_state.chat_history[active_session]["uploaded_files"].append(new_file_object)
                 save_history(st.session_state.chat_history)
-                
-            st.success(f"{uploaded_file.name} eklendi!")
-            st.rerun()  
+                st.rerun()
+
 for message in st.session_state.chat_history[active_session]["messages"]:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -128,7 +179,9 @@ if query := st.chat_input("Doküman hakkında soru sorun..."):
 
     with st.chat_message("assistant"):
         with st.spinner("Dokümanlar inceleniyor..."):
-            answer, docs = ask_to_rag(query, vstore, session_id = active_session, k=10)
+            hash_list = [f["hash"] for f in 
+            st.session_state.chat_history[active_session].get("uploaded_files",[])]
+            answer, docs = ask_to_rag(query, vstore, doc_hashes=hash_list, k=10)
 
             if isinstance(answer, list):
                 answer = answer[0]["text"]
@@ -145,7 +198,7 @@ if query := st.chat_input("Doküman hakkında soru sorun..."):
                         src = d.metadata.get('src_file', 'Dosya')
                         page = d.metadata.get('page', -1) +1
                         if page == 0:
-                            page == "?" 
+                            page ="?" 
                         unique_sources.add(f" -{src} , (Sayfa: {page})")
 
                     for src_str in sorted(unique_sources):
