@@ -29,7 +29,7 @@ def load_chunks_from_json(json_path):
 
 def create_vectorstore(documents, persist_dir):
     """embedding işlemi yapılır ve vector store oluşturulur"""
-    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     print(f"embedding işlemi: ({len(documents)} chunk)")
     # ilk batch ile vector store oluştur
     batch_size = 50
@@ -54,7 +54,7 @@ def create_vectorstore(documents, persist_dir):
 def load_vectorstore(persist_dir):
     """oluşturulmuş vectore store'u diskten yükleyen fonk."""
 
-    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectorstore=Chroma(
         persist_directory=persist_dir,
         embedding_function=embeddings
